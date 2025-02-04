@@ -12,8 +12,8 @@ A FastAPI-based API that classifies numbers based on various mathematical proper
 ## Setup and Installation
 
 1. Clone the repository:
-   ```bash
    git clone https://github.com/your-username/number-classification-api.git
+
 2. Navigate into the project folder:
 cd number-api
 
