@@ -1,4 +1,4 @@
-# Number API
+# HNG_Number_Project
 
 A FastAPI-based API that classifies numbers based on various mathematical properties, including Armstrong number, prime number, odd/even, and provides fun facts using the Numbers API.
 
@@ -9,13 +9,18 @@ A FastAPI-based API that classifies numbers based on various mathematical proper
 - AWS EC2 (for deployment)
 - GitHub
 
+## Features
+- Classify a number as Armstrong, prime, odd/even.
+- Provides a fun fact using the Numbers API.
+- Exposes a public RESTful API deployed on AWS EC2.
+
 ## Setup and Installation
 
 1. Clone the repository:
-   git clone https://github.com/your-username/number-classification-api.git
+   git clone https://github.com/your-username/hng_number_project.git
 
 2. Navigate into the project folder:
-cd number-api
+cd hng_number_project
 
 3. Install dependencies:
 pip install -r requirements.txt
@@ -25,6 +30,9 @@ uvicorn main:app --reload
 
 5. API Endpoint
 GET /api/classify-number?number=<number>
+
+Access the API at http://127.0.0.1:8000. You can test with the following command:
+curl http://127.0.0.1:8000/api/classify-number?number=371
 
 Example Request: curl http://127.0.0.1:8000/api/classify-number?number=371
 Example Response(in json format):
@@ -40,9 +48,52 @@ Example Response(in json format):
   "fun_fact": "371 is a narcissistic number."
 }
 
-6. Deployment
-The API is deployed on AWS EC2. You can access the live version at:
+6. Dockerizing the API
 
-http://44.202.42.122/api/classify-number?number=371
+To create a Docker image for your API, ensure your project directory contains the following:
+
+Dockerfile: Defines the environment for the API.
+requirements.txt: Lists all the dependencies. 
+
+7. Build the Docker image and run the container:
+docker build -t number-classification-api .
+docker run -d -p 8000:8000 number-classification-api
+
+8. Deployment
+The API is deployed on AWS EC2.
+SSH into the EC2 instance: ssh -i /path/to/key.pem ubuntu@<your-ec2-public-ip>
+
+9. Install Docker on EC2: 
+sudo apt-get update
+sudo apt-get install docker.io
+sudo systemctl enable --now docker
+
+10. Pull and Run Docker Container:
+Ensure that your Docker image is accessible either by pushing it to Docker Hub or by transferring the image to your EC2 instance.
+Run the Docker container: docker run -d -p 80:8000 number-classification-api
+
+11. You can access the live version at:
+http://your-public-ip/api/classify-number?number=371
 License
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+
+---
+
+### **Explanation of Sections:**
+
+- **Technologies Used**: List of tools and frameworks.
+- **Features**: Key features of the API (number classification, fun facts).
+- **Setup and Installation**: Instructions for setting up the project locally.
+- **Running the API Locally**: How to run the API using `uvicorn` for testing purposes.
+- **Dockerizing the API**: Instructions to containerize the project using Docker.
+- **Deploying to AWS EC2**: Detailed steps on how to deploy the application to AWS EC2.
+- **Nginx**: Optional section to set up Nginx for reverse proxying.
+- **API Endpoint**: Shows the API URL and expected request/response format.
+- **Troubleshooting**: Common issues you might face during deployment.
+- **License**: Licensing information for the project.
+
+---
+
+This `README.md` template covers all the steps from setting up the project to deploying it, with a clear guide for other developers to replicate your process. Make sure to replace the placeholders like `your-username` and `your-ec2-public-ip` with your actual details.
+
