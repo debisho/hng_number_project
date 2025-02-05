@@ -24,7 +24,7 @@ jobs:
     - name: SSH into EC2 and Deploy
       run: |
         mkdir -p ~/.ssh
-        echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+        echo ${{ secrets.EC2_SSH_KEY }} > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         echo "${{ secrets.EC2_HOST }} $(ssh-keyscan -H ${{ secrets.EC2_HOST }}) 2> /dev/null" >> ~/.ssh/known_hosts"
         ssh -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_HOST }}
