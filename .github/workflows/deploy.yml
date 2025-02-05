@@ -22,14 +22,13 @@ jobs:
         docker push debisho/number-api
 
     - name: SSH into EC2 and Deploy
-      uses: appleboy/ssh-action@v0.1.4
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ubuntu
-        key: ${{ secrets.EC2_SSH_KEY }}
-        script: |
-          docker pull debisho/number-api
-          docker stop number-api || true
-          docker rm number-api || true
-          docker run -d -p 80:8000 --name number-api debisho/number-api
+      run: |
+        echo "${{ secrets.EC2_SSH_KEY }}" > "~/.ssh/id_rsa"
+        chmod 600 "~/.ssh/id_rsa"
+        echo "${{ secrets.EC2_HOST }} $(ssh-keyscan -H ${{ secrets.EC2_HOST }}) 2> /dev/null" >> ~/.ssh/known_hosts"
+        ssh -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_HOST }}
+        docker pull debisho/number-api
+        docker stop number-api || true
+        docker rm number-api || true
+        docker run -d -p 80:8000 --name number-api debisho/number-api
 
