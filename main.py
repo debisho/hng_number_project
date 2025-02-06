@@ -12,7 +12,7 @@ def is_prime(n):
     return True
 
 def is_perfect(n):
-    return n > 0 and sum(i for i in range(1, n) if n % i == 0) == n
+    return sum(i for i in range(1, abs(n)) if abs(n) % i == 0) == abs(n)
 
 def is_armstrong(n):
     digits = [int(d) for d in str(n)]
