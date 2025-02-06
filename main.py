@@ -54,5 +54,5 @@ async def classify_number(number: str):  # Accept input as string for validation
     except ValueError as e:
         raise HTTPException(
             status_code=400,
-            detail={"number": str(e), "error": True}
+            detail={"number": str(e), "error": True, "message": "Invalid number format"}
         )
