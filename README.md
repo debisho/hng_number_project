@@ -96,5 +96,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
-This `README.md` template covers all the steps from setting up the project to deploying it, with a clear guide for other developers to replicate your process. Make sure to replace the placeholders like `your-username` and `your-ec2-public-ip` with your actual details.
+
 
