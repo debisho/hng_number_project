@@ -12,39 +12,47 @@ def is_prime(n):
             return False
     return True
 
-# Function to check if a number is perfect (supports negative numbers)
+# Function to check if a number is perfect
 def is_perfect(n):
     return sum(i for i in range(1, abs(n)) if abs(n) % i == 0) == abs(n)
 
-# Function to check if a number is an Armstrong number (only for non-negative integers)
+# Function to check if a number is an Armstrong number
 def is_armstrong(n):
-    if n < 0 or not n.is_integer():  # Armstrong numbers are not defined for negatives or decimals
+    if n < 0:  # Armstrong numbers are only defined for non-negative integers
         return False
-    digits = [int(d) for d in str(int(n))]  # Convert to integer before checking
-    return sum(d ** len(digits) for d in digits) == int(n)
+    digits = [int(d) for d in str(n)]
+    return sum(d ** len(digits) for d in digits) == n
 
 @app.get("/api/classify-number")
-async def classify_number(number: float):  # Accept float instead of int
+async def classify_number(number: str):  # Accept input as string for validation
     try:
+        # Ensure the input is a valid integer
+        if not number.lstrip('-').isdigit():
+            raise ValueError("Alphabet")
+        
+        number = int(number)  # Convert to integer after validation
         properties = []
 
-        # Classify number
+        # Classify the number
         if is_armstrong(number):
             properties.append("armstrong")
-        properties.append("odd" if int(number) % 2 != 0 else "even")
+        properties.append("odd" if number % 2 != 0 else "even")
 
-        # Fetch fun fact
-        fun_fact_url = f"http://numbersapi.com/{int(number)}/math?json"  # Convert to int for API
+        # Fetch fun fact (only for integers)
+        fun_fact_url = f"http://numbersapi.com/{number}/math?json"
         fun_fact = requests.get(fun_fact_url).json().get("text", "No fact found")
 
         return {
             "number": number,
-            "is_prime": is_prime(int(number)),  # Convert to int for prime check
-            "is_perfect": is_perfect(int(number)),  # Convert to int for perfect number check
+            "is_prime": is_prime(number),
+            "is_perfect": is_perfect(number),
             "properties": properties,
-            "digit_sum": sum(int(d) for d in str(int(abs(number)))),  # Handle negatives correctly
+            "digit_sum": sum(int(d) for d in str(abs(number))),  # Handle negatives correctly
             "fun_fact": fun_fact
         }
 
     except ValueError:
-        raise HTTPException(status_code=400, detail={"number": "Invalid input", "error": True})
+        raise HTTPException(
+            status_code=400,
+            detail={"number": "alphabet", "error": True}
+        )
