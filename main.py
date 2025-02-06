@@ -12,9 +12,9 @@ def is_prime(n):
             return False
     return True
 
-# Function to check if a number is perfect
+# Function to check if a number is perfect (Fix: Ensure 0 is not classified as perfect)
 def is_perfect(n):
-    return sum(i for i in range(1, abs(n)) if abs(n) ) == abs(n)
+    return n > 0 and sum(i for i in range(1, abs(n)) if abs(n) % i == 0) == abs(n)
 
 # Function to check if a number is an Armstrong number
 def is_armstrong(n):
@@ -28,8 +28,8 @@ async def classify_number(number: str):  # Accept input as string for validation
     try:
         # Ensure the input is a valid integer
         if not number.lstrip('-').isdigit():
-            raise ValueError("Alphabet")
-        
+            raise ValueError(number)  # Pass the invalid input to the exception
+
         number = int(number)  # Convert to integer after validation
         properties = []
 
@@ -45,13 +45,13 @@ async def classify_number(number: str):  # Accept input as string for validation
         return {
             "number": number,
             "is_prime": is_prime(number),
-            "is_perfect": is_perfect(number),
+            "is_perfect": is_perfect(number),  # Now correctly handles 0
             "properties": properties,
             "digit_sum": sum(int(d) for d in str(abs(number))),  # Handle negatives correctly
             "fun_fact": fun_fact
         }
 
-    except ValueError:
+    except ValueError as e:
         raise HTTPException(
             status_code=400,
             detail={"number": "alphabet", "error": True}
