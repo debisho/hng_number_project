@@ -27,7 +27,7 @@ jobs:
         echo ${{ secrets.EC2_SSH_KEY }} > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         echo "${{ secrets.EC2_HOST }} $(ssh-keyscan -H ${{ secrets.EC2_HOST }}) 2> /dev/null" >> ~/.ssh/known_hosts"
-        ssh -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_HOST }}
+        ssh -i "~/.ssh/id_rsa" ubuntu@${{ secrets.EC2_HOST }}
         docker pull debisho/number-api
         docker stop number-api || true
         docker rm number-api || true
