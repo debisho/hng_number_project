@@ -24,8 +24,8 @@ jobs:
     - name: SSH into EC2 and Deploy
       run: |
         echo ${{ secrets.EC2_SSH_KEY }} > ~/.ssh/id_rsa
-        echo "${{ secrets.EC2_HOST }} $(ssh-keyscan -H ${{ secrets.EC2_HOST }}) 2> /dev/null" >> ~/.ssh/known_hosts"
-        ssh -i "~/.ssh/id_rsa" ubuntu@${{ secrets.EC2_HOST }}
+        echo ${{ secrets.EC2_HOST }} $(ssh-keyscan -H ${{ secrets.EC2_HOST }}) 2> /dev/null >> ~/.ssh/known_hosts
+        ssh -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_HOST }}
         docker pull debisho/number-api
         docker stop number-api || true
         docker rm number-api || true
