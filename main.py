@@ -28,7 +28,7 @@ async def classify_number(number: str):  # Accept input as string for validation
     try:
         # Ensure the input is a valid integer
         if not number.lstrip('-').isdigit():
-            raise ValueError("Invalid input: Only integers are allowed.")
+            raise ValueError(number)
         
         number = int(number)  # Convert to integer after validation
         properties = []
