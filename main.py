@@ -14,7 +14,7 @@ def is_prime(n):
 
 # Function to check if a number is perfect
 def is_perfect(n):
-    return sum(i for i in range(1, abs(n)) if abs(n) % i == 0) == abs(n)
+    return n > 0 and sum(i for i in range(1, abs(n)) if abs(n) % i == 0) == abs(n)
 
 # Function to check if a number is an Armstrong number
 def is_armstrong(n):
